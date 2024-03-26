@@ -4,71 +4,49 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
-import oracle.info.OracleInfo;
+public class AnySQLjava {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement ps = null;
 
-public class AnySQL {
-	public static void main(String[] args) {
-		Connection connection = null;
-		PreparedStatement pstmt = null;
+        try {
+            // Load Oracle JDBC driver
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            System.out.println("Oracle JDBC driver loaded...");
 
-		try {
-			// load driver
-			Class.forName(OracleInfo.DRIVER_CLASS_MYSQL);
-			System.out.println("driver is loaded...\n");
-			
-			// connection to database
-			connection = DriverManager.getConnection(OracleInfo.URL, OracleInfo.USER, OracleInfo.PASSWORD);
-			System.out.println("database is connected...\n");
-			
-			// read SQL command
-			Scanner scan = new Scanner(System.in);
-			
-			System.out.println("Enter SQL command: ");
-			String sql = scan.nextLine();
-            pstmt = connection.prepareStatement(sql);
+            // Connect to Oracle database
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@calvin.humber.ca:1521:grok", "N01579272", "oracle");
+            System.out.println("Connected to Oracle database...");
 
-			System.out.println("Prepared statement created...\n");
-			
-			// execute statement
-			pstmt.execute();
-			
-			System.out.println("Execute successful ...");
-			scan.close();
-		}
-		catch (InputMismatchException ime) {
-			ime.getStackTrace();
-		}
-		catch (SQLException se) {
-			se.getStackTrace();
-		}
-		catch (ClassNotFoundException cnfe) {
-			cnfe.getStackTrace();
-		}
-		catch (Exception e) {
-			e.getStackTrace();
-		}
-		finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-			}
-			catch(SQLException se) {
-				se.printStackTrace();
-			}
-			
-			try {
-				if(connection != null) {
-					connection.close();
-				}
-			}
-			catch(SQLException se) {
-				se.printStackTrace();
-			}
-		}
-		
-	}
+            // Read SQL command
+            Scanner scan = new Scanner(System.in);
+
+            System.out.println("Enter SQL command: ");
+            String sql = scan.nextLine();
+            ps = conn.prepareStatement(sql);
+
+            System.out.println("Prepared statement created...");
+
+            // Execute statement
+            ps.execute();
+
+            System.out.println("Execution successful...");
+            scan.close();
+        } catch (InputMismatchException ime) {
+            System.out.println("Input Mismatch Exception: " + ime.getMessage());
+            ime.printStackTrace();
+        } catch (SQLException se) {
+            System.out.println("SQL Exception: " + se.getMessage());
+            se.printStackTrace();
+        } catch (ClassNotFoundException cnfe) {
+            System.out.println("Class Not Found Exception: " + cnfe.getMessage());
+            cnfe.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+            e.printStackTrace();
+        } 
+    }
 }
