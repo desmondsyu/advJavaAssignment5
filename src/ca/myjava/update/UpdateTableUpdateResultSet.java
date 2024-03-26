@@ -37,13 +37,13 @@ public class UpdateTableUpdateResultSet {
 		
 			resultSet = pstmt.executeQuery();
 
-			if (resultSet.next()) {
-			    resultSet.deleteRow();
-			    connection.commit();
-			    System.out.println("Delete successful ...\n");
-			} else {
-			    System.out.println("No records found for the given country.\n");
-			}
+			/*
+			 * The code below 
+			 * 
+			 * if (resultSet.next()) { resultSet.deleteRow(); connection.commit();
+			 * System.out.println("Delete successful ...\n"); } else {
+			 * System.out.println("No records found for the given country.\n"); }
+			 */
 			
 			scan.close();
 		}
