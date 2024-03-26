@@ -35,6 +35,7 @@ public class AnySQL {
 			// execute statement
 			pstmt.execute();
 			
+			System.out.println("Execute successful ...");
 			scan.close();
 		}
 		catch (InputMismatchException ime) {
