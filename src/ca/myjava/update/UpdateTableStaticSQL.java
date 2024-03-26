@@ -9,7 +9,7 @@ import oracle.info.OracleInfo;
 
 public class UpdateTableStaticSQL {
 	
-	// use static SQL to update
+	// use static SQL to delete
 	public static void main(String[] args) {
 		try {
 			// load driver
@@ -22,10 +22,10 @@ public class UpdateTableStaticSQL {
 			
 			// query
 			Statement statement = connection.createStatement();
- 			statement.executeQuery("UPDATE country SET lifeexpectancy = 85 WHERE country = 'CANADA'");
+ 			statement.executeQuery("DELETE FROM country WHERE country = 'CANADA'");
 
 			// result
-			System.out.println("Update successful ...\n");
+			System.out.println("Delete successful ...\n");
 		}
 		catch (SQLException se) {
 			se.getStackTrace();

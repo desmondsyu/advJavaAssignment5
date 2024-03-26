@@ -3,6 +3,7 @@ package ca.myjava.unknown;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class AnySQL {
 	public static void main(String[] args) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 
 		try {
 			// load driver
@@ -31,9 +33,22 @@ public class AnySQL {
             pstmt = connection.prepareStatement(sql);
 
 			System.out.println("Prepared statement created...\n");
-			
-			// execute statement
-			pstmt.execute();
+
+			// show the output or execution result 
+			if(sql.toLowerCase().startsWith("select")) {
+				resultSet = pstmt.executeQuery();
+				
+				while(resultSet.next()) {
+					for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                        System.out.print(resultSet.getString(i) + "\t");
+                    }
+                    System.out.println();
+				}
+			}
+			else {
+				int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows affected: " + rowsAffected);
+			}
 			
 			System.out.println("Execute successful ...");
 			scan.close();

@@ -11,7 +11,7 @@ import oracle.info.OracleInfo;
 
 public class UpdateTablePreparedStm {
 	
-	// use prepared statement to insert value to table
+	// use prepared statement to update value to table
 	public static void main(String[] args) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -26,7 +26,7 @@ public class UpdateTablePreparedStm {
 			System.out.println("database is connected...\n");
 			
 			// create statement
-			String sql = "INSERT INTO country VALUES ( ?, ?)";
+			String sql = "UPDATE country SET lifeexpectancy = ? WHERE country = ?";
             pstmt = connection.prepareStatement(sql);
 
 			System.out.println("Prepared statement created...");
@@ -36,18 +36,18 @@ public class UpdateTablePreparedStm {
 			
 			System.out.println("Input country: ");
 			String country = scan.nextLine();
-
+			
 			System.out.println("Input life expectancy: ");
 			int age = scan.nextInt();
-
-			pstmt.setString(1, country);
-			pstmt.setInt(2, age);
+			
+			pstmt.setInt(1, age);
+			pstmt.setString(2, country);
 			
 			System.out.println("Data accepted ...\n");
 			
 			// execute
 			pstmt.executeUpdate();
-			System.out.println("Insert successful ...\n");
+			System.out.println("Update successful ...\n");
 			
 			scan.close();
 		}
