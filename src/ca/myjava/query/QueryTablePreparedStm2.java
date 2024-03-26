@@ -19,7 +19,7 @@ public class QueryTablePreparedStm2 {
 		try {
 			
 			// load driver
-			Class.forName(OracleInfo.DRIVER_CLASS_MYSQL);
+			Class.forName(OracleInfo.DRIVER_CLASS_DB);
 			System.out.println("driver is loaded...\n");
 			
 			// connection to database

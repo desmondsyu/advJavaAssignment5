@@ -8,7 +8,7 @@ public class QueryTableStaticSQL {
 	public static void main(String[] args) {
 		try {
 			// load driver
-			Class.forName(OracleInfo.DRIVER_CLASS_MYSQL);
+			Class.forName(OracleInfo.DRIVER_CLASS_DB);
 			System.out.println("driver is loaded...\n");
 			
 			// connection to database
