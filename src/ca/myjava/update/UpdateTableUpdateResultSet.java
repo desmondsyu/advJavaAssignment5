@@ -19,7 +19,7 @@ public class UpdateTableUpdateResultSet {
 		
 		try {
 			// load driver
-			Class.forName(OracleInfo.DRIVER_CLASS_MYSQL);
+			Class.forName(OracleInfo.DRIVER_CLASS_DB);
 			System.out.println("driver is loaded...\n");
 			
 			// connection to database
@@ -27,34 +27,41 @@ public class UpdateTableUpdateResultSet {
 			System.out.println("database is connected...\n");
 			
 			// create statement
-			String sql = "SELECT * FROM country WHERE lifeexpectancy = ?";
-            pstmt = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String sql = "SELECT * FROM country WHERE country = ?";
+            pstmt = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
  			Scanner scan = new Scanner(System.in);
-			System.out.println("Input age: ");
-			//String country = scan.nextLine();
-			//pstmt.setString(1, country);
-			int age = scan.nextInt();
-			pstmt.setInt(1, age);
-			
+			System.out.println("Input country: ");
+			String country = scan.nextLine();
+			pstmt.setString(1, country);
+		
 			resultSet = pstmt.executeQuery();
-			
-			resultSet.next();
-			resultSet.deleteRow();
- 			
-			// result
-			System.out.println("Delete successful ...\n");
+
+			if (resultSet.next()) {
+			    resultSet.deleteRow();
+			    connection.commit();
+			    System.out.println("Delete successful ...\n");
+			} else {
+			    System.out.println("No records found for the given country.\n");
+			}
 			
 			scan.close();
 		}
 		catch (SQLException se) {
-			se.getStackTrace();
+			se.printStackTrace();
+//			    try {
+//			        if (connection != null) {
+//			            connection.rollback();
+//			        }
+//			    } catch (SQLException re) {
+//			        re.printStackTrace();
+//			    }
 		}
 		catch (ClassNotFoundException cnfe) {
-			cnfe.getStackTrace();
+			cnfe.printStackTrace();
 		}
 		catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
 		}
 		finally {
 			try {
