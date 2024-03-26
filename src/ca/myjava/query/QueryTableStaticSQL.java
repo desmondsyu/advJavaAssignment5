@@ -1,37 +1,51 @@
 package ca.myjava.query;
 
-import java.sql.*;
-import oracle.info.OracleInfo;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class QueryTableStaticSQL {
-	public static void main(String[] args) {
-		try {
-			// load driver
-			Class.forName(OracleInfo.DRIVER_CLASS_MYSQL);
-			System.out.println("driver is loaded...\n");
-			
-			// connection to database
-			Connection connection = DriverManager.getConnection(OracleInfo.URL, OracleInfo.USER, OracleInfo.PASSWORD);
-			System.out.println("database is connected...\n");
-			
-			// query
-			Statement statement = connection.createStatement();
- 			ResultSet resultSet = statement.executeQuery("SELECT * FROM country WHERE lifeexpectancy BETWEEN 70 AND 90");
- 			
-			System.out.printf("Country\t\tLife Expectancy\n");
-			
-			// print output
-			while(resultSet.next()) {
-				System.out.println(resultSet.getString(1) + "\t\t" + resultSet.getString(2));
-			}
-		}
-		catch (SQLException se) {
-			se.getStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-			e.getStackTrace();
-		}
-		
-	}
+    
+    public static void main(String[] args) {
+        try {
+            // Loading the driver
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            System.out.println("Driver is loaded");
+            
+            // Establishing a connection
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@calvin.humber.ca:1521:grok", "N01579272", "oracle");
+            System.out.println("Connection is successful");
+            
+            // Creating the SQL query
+            String sql = "SELECT * FROM countrydata WHERE LifeExpectancy BETWEEN 12 AND 83";
+            
+            // Creating a statement
+            Statement st = conn.createStatement();
+            
+            // Executing the query
+            ResultSet rs = st.executeQuery(sql);
+            
+            // Iterating through the result set and printing data
+            while (rs.next()) {
+                // Example: Retrieving and printing the country name and life expectancy
+                String countryName = rs.getString("Country");
+                float lifeExpectancy = rs.getFloat("LifeExpectancy");
+                System.out.println("Country: " + countryName + ", Life Expectancy: " + lifeExpectancy);
+            }
+            
+            // Closing resources
+            rs.close();
+            st.close();
+            conn.close();
+            System.out.println("Connection closed successfully");
+            
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error loading driver: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+        }
+    }
 }
+
