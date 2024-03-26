@@ -27,16 +27,18 @@ public class UpdateTableUpdateResultSet {
 			System.out.println("database is connected...\n");
 			
 			// create statement
-			String sql = "SELECT * FROM country WHERE country = ?";
+			String sql = "SELECT * FROM country WHERE lifeexpectancy = ?";
             pstmt = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
+            
  			Scanner scan = new Scanner(System.in);
-			System.out.println("Input country: ");
-			String country = scan.nextLine();
-			pstmt.setString(1, country);
+			System.out.println("Input age: ");
+			//String country = scan.nextLine();
+			//pstmt.setString(1, country);
+			int age = scan.nextInt();
+			pstmt.setInt(1, age);
 			
 			resultSet = pstmt.executeQuery();
-
+			
 			resultSet.next();
 			resultSet.deleteRow();
  			

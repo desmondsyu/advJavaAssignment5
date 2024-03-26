@@ -18,10 +18,9 @@ public class QueryTableStaticSQL {
 			// query
 			Statement statement = connection.createStatement();
  			ResultSet resultSet = statement.executeQuery("SELECT * FROM country WHERE lifeexpectancy BETWEEN 70 AND 90");
-
-			
+ 			
 			System.out.printf("Country\t\tLife Expectancy\n");
-
+			
 			// print output
 			while(resultSet.next()) {
 				System.out.println(resultSet.getString(1) + "\t\t" + resultSet.getString(2));
