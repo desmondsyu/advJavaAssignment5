@@ -1,7 +1,35 @@
 I/we declare that the attached assignment is my/our own work in accordance with Humber Academic Policy. 
 Nopart of this assignment has been copied manually or electronically from any other source (including 
 web sites) or distributed to other students.
-Name(s) Kexin Zhu Student ID(s) n01621302
+Name(s) Kexin Zhu, Marina Carvalho, Tanay Dalwadi Student ID(s) n01621302, n01606437, n01579272
 -----------------------------------------------------------------------------------------------------
 
-1. 
+1. ca.myjava.query package
+1.1 Using static SQL
+	In this class I'm using static sql query to return data into a result set.
+	And use a while loop to read the result set till the last line.
+1.2 Using prepared statement
+	In this class I'm using a prepared statement to query the data.
+	The sql accepts 2 values as the life expectancy range and allow user to input the 
+	value. Then read the value to a result set and print all the results.
+
+2. ca.myjava.unknown package
+	In this class I accept the user to input the whole sql statement and pass it as the 
+	prepared statement. Then the statement is executed and showing the result based on 
+	the query. If it's a select query, the program returns the data. Otherwise if it's update,
+	insert or delete, only shows a message.
+
+3. ca.myjava.update package
+3.1 Using Prepared Statement to UPDATE 
+	In this class I created a prepared statement with two parameters, allow user to input the 
+	values to be updated. Then execute the statement.
+3.2 Using Static SQL to DELETE
+	In this class I simply created a statement and execute it with a delete statement.
+3.3 Using Result Set to INSERT
+	In this class I created a result set that returns all the data in the table. Then allow user to 
+	input the data to be inserted. By calling the moveToInsertRow, updateString and updateInt methods,
+	the new line could be inserted to database.
+	* NOTE: I tried to perform INSERT and DELETE with result set in this class. Though I set the ResultSet 
+	updatable, the program kept showing ORA-17076 indicating that the ResultSet is read-only. I assume 
+	it's about the configuration of database. The SQLException prevents methods like deleteRow(), moveToInsertRow()
+	to execute.

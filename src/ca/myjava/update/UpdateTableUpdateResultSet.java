@@ -2,9 +2,9 @@ package ca.myjava.update;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 import oracle.info.OracleInfo;
@@ -14,7 +14,7 @@ public class UpdateTableUpdateResultSet {
 	// use result set to insert
 	public static void main(String[] args) {
 		Connection connection = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet resultSet = null;
 
 		try {
@@ -27,42 +27,34 @@ public class UpdateTableUpdateResultSet {
 			System.out.println("database is connected...\n");
 
 			// create statement
-			String sql = "SELECT * FROM country WHERE country = ?";
-			pstmt = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
+			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			resultSet = stmt.executeQuery("SELECT * FROM country");
+			
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Input country: ");
 			String country = scan.nextLine();
-			pstmt.setString(1, country);
-
-			resultSet = pstmt.executeQuery();
-	 
-			if (resultSet.next()) { 
-				resultSet.deleteRow(); 
-				connection.commit();
-				System.out.println("Delete successful ...\n"); } 
-			else {
-			System.out.println("No records found for the given country.\n"); 
-			}
+			System.out.println("Input life expectancy: ");
+			int age = scan.nextInt();
+			
+			resultSet.moveToInsertRow();
+			resultSet.updateString("country", country);
+			resultSet.updateInt("lifeexpectancy", age);
+			
+			resultSet.insertRow();
+			resultSet.moveToCurrentRow();
 
 			scan.close();
 		} catch (SQLException se) {
 			se.printStackTrace();
-			    try {
-			        if (connection != null) {
-			            connection.rollback();
-			        }
-			    } catch (SQLException re) {
-			        re.printStackTrace();
-			    }
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (pstmt != null) {
-					pstmt.close();
+				if (stmt != null) {
+					stmt.close();
 				}
 			} catch (SQLException se) {
 				se.printStackTrace();
